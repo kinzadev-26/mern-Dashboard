@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Plus, Trash2, Pencil, X, Search } from 'lucide-react'
 import DashboardLayout from '../components/DashboardLayout'
 import { useAuth } from '../context/AuthContext'
+import API from '../services/api'
 
 const Users = () => {
   const { token } = useAuth()
@@ -16,11 +17,10 @@ const Users = () => {
   })
   const [submitting, setSubmitting] = useState(false)
 
-  const API_URL = 'http://localhost:5000/api/users'
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get(API_URL, {
+      const res = await API.get('/api/users', {
         headers: { Authorization: `Bearer ${token}` },
       })
       setUsers(res.data)
@@ -52,14 +52,21 @@ const Users = () => {
     setSubmitting(true)
     try {
       if (editingUser) {
-        const res = await axios.put(
-          `${API_URL}/${editingUser._id}`,
-          { name: formData.name, email: formData.email, role: formData.role },
-          { headers: { Authorization: `Bearer ${token}` } }
+        const res = await API.put(
+          `/api/users/${editingUser._id}`,
+          {
+            name: formData.name,
+            email: formData.email,
+            role: formData.role
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         )
+
         setUsers(users.map((u) => (u._id === editingUser._id ? res.data : u)))
       } else {
-        const res = await axios.post(API_URL, formData, {
+        const res = await API.post('/api/users', formData, {
           headers: { Authorization: `Bearer ${token}` },
         })
         setUsers([res.data, ...users])
@@ -75,7 +82,7 @@ const Users = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this user?')) return
     try {
-      await axios.delete(`${API_URL}/${id}`, {
+      await API.delete(`/api/users/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       setUsers(users.filter((u) => u._id !== id))
@@ -158,11 +165,10 @@ const Users = () => {
                     <td className="px-6 py-4 text-sm text-gray-500">{user.email}</td>
                     <td className="px-6 py-4">
                       <span
-                        className={`text-xs font-medium px-3 py-1 rounded-full ${
-                          user.role === 'admin'
-                            ? 'bg-purple-100 text-purple-700'
-                            : 'bg-gray-100 text-gray-600'
-                        }`}
+                        className={`text-xs font-medium px-3 py-1 rounded-full ${user.role === 'admin'
+                          ? 'bg-purple-100 text-purple-700'
+                          : 'bg-gray-100 text-gray-600'
+                          }`}
                       >
                         {user.role}
                       </span>
@@ -262,8 +268,8 @@ const Users = () => {
                 {submitting
                   ? 'Saving...'
                   : editingUser
-                  ? 'Update User'
-                  : 'Add User'}
+                    ? 'Update User'
+                    : 'Add User'}
               </button>
             </form>
           </div>

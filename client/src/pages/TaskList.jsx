@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Plus, Trash2, CheckCircle, Circle, X } from 'lucide-react'
 import DashboardLayout from '../components/DashboardLayout'
 import { useAuth } from '../context/AuthContext'
+import API from '../services/api'
 
 const TaskList = () => {
   const { token } = useAuth()
@@ -13,11 +14,10 @@ const TaskList = () => {
   const [newTask, setNewTask] = useState({ title: '', description: '' })
   const [submitting, setSubmitting] = useState(false)
 
-  const API_URL = 'http://localhost:5000/api/tasks'
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get(API_URL, {
+      const res = await API.get('/api/tasks', {
         headers: { Authorization: `Bearer ${token}` },
       })
       setTasks(res.data)
@@ -37,7 +37,7 @@ const TaskList = () => {
     if (!newTask.title.trim()) return
     setSubmitting(true)
     try {
-      const res = await axios.post(API_URL, newTask, {
+      const res = await API.post('/api/tasks', newTask, {
         headers: { Authorization: `Bearer ${token}` },
       })
       setTasks([res.data, ...tasks])
@@ -53,8 +53,7 @@ const TaskList = () => {
   const toggleStatus = async (task) => {
     try {
       const newStatus = task.status === 'Pending' ? 'Completed' : 'Pending'
-      const res = await axios.put(
-        `${API_URL}/${task._id}`,
+      const res = await API.put(`/api/tasks/${task._id}`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -66,7 +65,7 @@ const TaskList = () => {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`${API_URL}/${id}`, {
+      await API.delete(`/api/tasks/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       setTasks(tasks.filter((t) => t._id !== id))
@@ -99,11 +98,10 @@ const TaskList = () => {
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition ${
-              filter === f
-                ? 'bg-purple-600 text-white'
-                : 'bg-white text-gray-600 border border-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition ${filter === f
+              ? 'bg-purple-600 text-white'
+              : 'bg-white text-gray-600 border border-gray-200'
+              }`}
           >
             {f}
           </button>
@@ -133,11 +131,10 @@ const TaskList = () => {
                   </button>
                   <div>
                     <p
-                      className={`font-medium ${
-                        task.status === 'Completed'
-                          ? 'text-gray-400 line-through'
-                          : 'text-gray-800'
-                      }`}
+                      className={`font-medium ${task.status === 'Completed'
+                        ? 'text-gray-400 line-through'
+                        : 'text-gray-800'
+                        }`}
                     >
                       {task.title}
                     </p>
