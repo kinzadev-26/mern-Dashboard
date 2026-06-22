@@ -93,88 +93,53 @@ This project is a real-world admin dashboard system connected with REST APIs, fe
 ---
 
 ##  Folder Structure
+```
 mern-dashboard/
 
 ├── client/                   # React Frontend
-
 │   └── src/
-
 │       ├── components/      
-
 │       │   ├── Sidebar.jsx
-
 │       │   ├── Navbar.jsx
-
 │       │   ├── DashboardLayout.jsx
-
 │       │   ├── StatsCard.jsx
-
 │       │   └── ProtectedRoute.jsx
-
 │       ├── pages/            
-
 │       │   ├── Login.jsx
-
 │       │   ├── Register.jsx
-
 │       │   ├── Dashboard.jsx
-
 │       │   ├── Analytics.jsx
-
 │       │   ├── TaskList.jsx
-
 │       │   ├── Users.jsx
-
 │       │   ├── Tracking.jsx
-
 │       │   ├── Inbox.jsx
-
 │       │   ├── Settings.jsx
-
 │       │   └── CalendarPage.jsx
-
 │       ├── context/
-
 │       │   └── AuthContext.jsx
-
+│       ├── services/
+│       │   └── api.jsx
 │       ├── App.jsx
-
-│       └── main.jsx
-
+│       |── main.jsx
+├       |── .env
 │
-
 └── server/               # Express Backend
-
 ├── controllers/
-
 │   ├── authController.js
-
 │   ├── taskController.js
-
 │   └── userController.js
-
 ├── middleware/
-
 │   └── authMiddleware.js
-
 ├── models/
-
 │   ├── User.js
-
 │   └── Task.js
-
 ├── routes/
-
 │   ├── authRoutes.js
-
 │   ├── taskRoutes.js
-
 │   └── userRoutes.js
-
 ├── .env
-
 └── index.js
-
+```
 ---
 
 ## ⚙️ Setup Instructions
@@ -185,7 +150,7 @@ mern-dashboard/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/mern-dashboard.git
+git clone https://github.com/kinzadev-26/mern-Dashboard
 cd mern-dashboard
 ```
 

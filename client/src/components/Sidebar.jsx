@@ -21,8 +21,9 @@ const Sidebar = () => {
     { icon: Users, label: 'Users', path: '/users' },
     { icon: Activity, label: 'Tracking', path: '/tracking' },
     { icon: Inbox, label: 'Inbox', path: '/inbox' },
-    { icon: Settings, label: 'Settings', path: '/settings' },
     { icon: Calendar, label: 'Calendar', path: '/calendar' },
+    { icon: Settings, label: 'Settings', path: '/settings' },
+    
   ]
 
   const handleNavClick = (path) => {
